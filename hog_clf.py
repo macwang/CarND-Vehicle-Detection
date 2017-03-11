@@ -9,8 +9,8 @@ from sklearn.preprocessing import StandardScaler
 from skimage.feature import hog
 # NOTE: the next import is only valid for scikit-learn version <= 0.17
 # for scikit-learn >= 0.18 use:
-# from sklearn.model_selection import train_test_split
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
+# from sklearn.cross_validation import train_test_split
 
 # Define a function to return HOG features and visualization
 def get_hog_features(img, orient, pix_per_cell, cell_per_block,
@@ -70,27 +70,31 @@ def extract_features(imgs, cspace='RGB', orient=9,
 
 
 # Divide up into cars and notcars
-images = glob.glob('*.jpeg')
+noncar_path = ['/non-vehicles_smallset/notcars1', '/non-vehicles_smallset/notcars2', '/non-vehicles_smallset/notcars3']
+car_path = ['/vehicles_smallset/cars1', '/vehicles_smallset/cars2', '/vehicles_smallset/cars3']
 cars = []
 notcars = []
-for image in images:
-    if 'image' in image or 'extra' in image:
-        notcars.append(image)
-    else:
-        cars.append(image)
+
+for p in noncar_path:
+    images = glob.glob('test_images' + p + '/*.jpeg')
+    notcars = notcars + images
+
+for p in car_path:
+    images = glob.glob('test_images' + p + '/*.jpeg')
+    cars = cars + images
 
 # Reduce the sample size because HOG features are slow to compute
 # The quiz evaluator times out after 13s of CPU time
-sample_size = 500
-cars = cars[0:sample_size]
-notcars = notcars[0:sample_size]
+# sample_size = 500
+# cars = cars[0:sample_size]
+# notcars = notcars[0:sample_size]
 
 ### TODO: Tweak these parameters and see how the results change.
-colorspace = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-orient = 9
+colorspace = 'YUV' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+orient = 12
 pix_per_cell = 8
 cell_per_block = 2
-hog_channel = 0 # Can be 0, 1, 2, or "ALL"
+hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
 
 t=time.time()
 car_features = extract_features(cars, cspace=colorspace, orient=orient,
