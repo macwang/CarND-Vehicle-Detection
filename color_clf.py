@@ -9,8 +9,8 @@ from sklearn.preprocessing import StandardScaler
 # NOTE: the next import is only valid
 # for scikit-learn version <= 0.17
 # if you are using scikit-learn >= 0.18 then use this:
-# from sklearn.model_selection import train_test_split
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
+# from sklearn.cross_validation import train_test_split
 
 # Define a function to compute binned color features
 def bin_spatial(img, size=(32, 32)):
@@ -62,14 +62,27 @@ def extract_features(imgs, cspace='RGB', spatial_size=(32, 32),
 
 
 # Read in car and non-car images
-images = glob.glob('*.jpeg')
+noncar_path = ['/non-vehicles_smallset/notcars1', '/non-vehicles_smallset/notcars2', '/non-vehicles_smallset/notcars3']
+car_path = ['/vehicles_smallset/cars1', '/vehicles_smallset/cars2', '/vehicles_smallset/cars3']
 cars = []
 notcars = []
-for image in images:
-    if 'image' in image or 'extra' in image:
-        notcars.append(image)
-    else:
-        cars.append(image)
+
+for p in noncar_path:
+    images = glob.glob('test_images' + p + '/*.jpeg')
+    notcars = notcars + images
+
+for p in car_path:
+    images = glob.glob('test_images' + p + '/*.jpeg')
+    cars = cars + images
+#
+# images = glob.glob('*.jpeg')
+# cars = []
+# notcars = []
+# for image in images:
+#     if 'image' in image or 'extra' in image:
+#         notcars.append(image)
+#     else:
+#         cars.append(image)
 
 # TODO play with these values to see how your classifier
 # performs under different binning scenarios
