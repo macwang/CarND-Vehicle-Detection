@@ -7,7 +7,7 @@ The course provided a set of car/noncar 64x64 images. I started from examine som
 [//]: # (Image References)
 [image1]: ./images/original_vs_smaller.png
 [image2]: ./images/parameters.png
-[image3]: ./examples/sliding_windows.jpg
+[image3]: ./images/HOG_car.png
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
@@ -39,10 +39,7 @@ The result is 8792 and 8968. So good, the course has tailored a pretty good trai
 
 Then I randomly choose couple images and apply HOG to it. I tried dozen rounds, I noticed the HOG image of a car image must have a boundary around the car body. Like this
 
-/------\
-|      |
-|      |
-\------/
+![alt text][image3]
 
 The HOG image of a noncar image is pretty random. It could be a combination of many parallel lines.
 
