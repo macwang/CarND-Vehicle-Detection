@@ -9,7 +9,7 @@ The course provided a set of car/noncar 64x64 images. I started from examine som
 [image2]: ./images/parameters.png
 [image3]: ./images/HOG_car.png
 [image4]: ./images/heatmap.png
-[image5]: ./examples/bboxes_and_heat.png
+[image5]: ./images/p_test.png
 [image6]: ./examples/labels_map.png
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
@@ -111,6 +111,11 @@ for ...     # Scan in X axis
         # extract the interesting area in the loop
         hog_features = hog[ypos:ypos+nblocks_per_window, xpos:xpos+nblocks_per_window].ravel()
 ```
+
+## Preliminary test
+
+![alt text][image5]
+
 
 ===
 
