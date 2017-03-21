@@ -8,7 +8,7 @@ The course provided a set of car/noncar 64x64 images. I started from examine som
 [image1]: ./images/original_vs_smaller.png
 [image2]: ./images/parameters.png
 [image3]: ./images/HOG_car.png
-[image4]: ./examples/sliding_window.jpg
+[image4]: ./images/heatmap.png
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
 [image7]: ./examples/output_bboxes.png
@@ -77,6 +77,40 @@ I tried 48 different combinations of color spaces and HOG parameters. In the end
 
 ![alt text][image2]
 
+## Data preprocessing
+
+It worth to mention that there are two actions I took before the training.
+
+1. I only used OpenCV's imread() rather than matplotlib.image's imread() because it will produce array with value ranging 0~1 for PNG file. OpenCV's imread() will always produce array in 0~255. And I convert it from BGR to RGB.
+2. Since the value is ranging from 0~255. It needs normalized. I used scikit-learn's StandardScaler to fit and transform the data before training.
+
+```ptyhon
+X_scaler = StandardScaler().fit(X)
+scaled_X = X_scaler.transform(X)
+```
+The X_scaler has to be kept to normalize data when processing video.
+
+## Sliding window search
+
+Now I have a good classifier(99.2%) that can identify whether a 64x64 image block is car or not. So I will need to scan the whole image with sliding window to detect if it's a car. If it's detected as a car, then record the area. The detected rectangles might be overlapped. The more overlapped times area are more certain that's really a car. We can use heatmap to see those areas.
+
+![alt text][image4]
+
+## Optimization
+
+The function to calculate HOG matrix took a lot of time. And the sliding window algorithm needs to scan hundreds times of the blocks. Many areas are redundantly calculated. So this place can be optimized.
+
+I calculate the HOG matrix of the entire (400, 0)-(656, 1279) at once. And extracting the process area when I scan the image.
+
+```python
+# calulate HOG array
+hog = get_hog_features(ch, orient, pix_per_cell, cell_per_block, feature_vec=False)
+
+for ...     # Scan in X axis
+    for ... # Scan in Y axis
+        # extract the interesting area in the loop
+        hog_features = hog[ypos:ypos+nblocks_per_window, xpos:xpos+nblocks_per_window].ravel()
+```
 
 ===
 
