@@ -10,13 +10,13 @@ The course provided a set of car/noncar 64x64 images. I started from examine som
 [image3]: ./images/HOG_car.png
 [image4]: ./images/heatmap.png
 [image5]: ./images/p_test.png
-[image6]: ./examples/labels_map.png
+[image6]: ./images/hog-compare.png
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
 
 ## Examine the provided car/noncar images
 
-I usually check the distribution of the samples to see if it's balanced.
+I usually check the distribution of the samples first to see if it's balanced.
 ```python
 cars = []
 notcars = []
@@ -37,7 +37,11 @@ The result is 8792 and 8968. So good, the course has tailored a pretty good trai
 
 ## Perform HOG feature extraction
 
-Then I randomly choose couple images and apply HOG to it. I tried dozen rounds, I noticed the HOG image of a car image must have a boundary around the car body. Like this
+Then I randomly choose couple images and apply HOG to it.
+
+![alt text][image6]
+
+I tried dozen rounds, I noticed the HOG image of a car image must have a boundary around the car body. Like this
 
 ![alt text][image3]
 
@@ -81,8 +85,8 @@ I tried 48 different combinations of color spaces and HOG parameters. In the end
 
 It worth to mention that there are two actions I took before the training.
 
-1. I only used OpenCV's imread() rather than matplotlib.image's imread() because it will produce array with value ranging 0~1 for PNG file. OpenCV's imread() will always produce array in 0~255. And I convert it from BGR to RGB.
-2. Since the value is ranging from 0~255. It needs normalized. I used scikit-learn's StandardScaler to fit and transform the data before training.
+1. I only used OpenCV's imread() rather than matplotlib.image's imread() because it will produce array with value ranging 0 to 1 for PNG file. OpenCV's imread() will always produce array in 0 to 255. And I convert it from BGR to RGB.
+2. Since the value is ranging from 0 to 255. It needs normalized. I used scikit-learn's StandardScaler to fit and transform the data before training.
 
 ```ptyhon
 X_scaler = StandardScaler().fit(X)
