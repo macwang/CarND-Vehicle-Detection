@@ -124,9 +124,37 @@ Here is the preliminary video. [YouTube](https://youtu.be/7gN-kQdQ86A)
 
 The cars were roughly detected but the bounding boxes are very unstable. We need to use certain ways to make it move smoother and stabler.
 
+## Refer to previous frames
+
+The sample video is 25FPS. The cars nearby with heading the same direction won't move too fast. So I planned to add several previous frames's heatmap together and use the result to do second heatmap. I used a list to keep previous heatmaps and use reduce() to add them up.
+
+```python
+def fn(x, y):   # fn for reduce()
+    if isinstance(y, int):
+        return x
+    return x + y
+
+total_cases = 5 # 5 / 25 frames = 0.2s
+heat_map_queue = [0 for i in range(total_cases)] # initiate the list with 0
+
+def process_image_v2(img):
+    global current_case
+    out_img, heat_map = find_cars(img, 1)
+    heat_map_queue[current_case % total_cases] = heat_map # add heatmap of current frame to the queue
+    current_case += 1
+    overall_heatmap = reduce(fn, heat_map_queue) # use reduce to add all heatmaps in the queue
+
+    overall_heatmap = apply_threshold(overall_heatmap, 4) # since the overall_heatmap has many heatmaps' value. the threshold is higher
+    labels = label(overall_heatmap)
+    draw_img = draw_labeled_bboxes(np.copy(img), labels)
+    return draw_img
+```
+
+## Result video
+
+
+
 ## References
 
 * [MoviePy](http://zulko.github.io/moviepy/index.html)
 * [OpenCY HOG Blog](http://www.learnopencv.com/histogram-of-oriented-gradients/)
-
-
