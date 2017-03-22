@@ -1,3 +1,3 @@
 [My writeup](mywriteup.md)
 
-[My work](mywork.ipynb)
+[My work](exp.ipynb)

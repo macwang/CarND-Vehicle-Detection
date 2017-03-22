@@ -152,7 +152,13 @@ def process_image_v2(img):
 
 ## Result video
 
+Here is the result [video](./output_images/output.mp4)
 
+## Discussion
+
+* This is a very educational project that let me to experience the whole data processing pipeline on vehicle detection. During the practice that I have more understanding on the parameters tuning and the required performance optimization on the real time situation.
+* There are couple false positives. That's due to detected the cars in opposite lane. It should be able improved to filter them out. Unfortunately I ran out of time.
+* Sometimes a car were detected to be two cars. It could be improved too.
 
 ## References
 
