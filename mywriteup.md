@@ -124,4 +124,9 @@ Here is the preliminary video. [YouTube](https://youtu.be/7gN-kQdQ86A)
 
 The cars were roughly detected but the bounding boxes are very unstable. We need to use certain ways to make it move smoother and stabler.
 
-## 
+## References
+
+* [MoviePy](http://zulko.github.io/moviepy/index.html)
+* [OpenCY HOG Blog](http://www.learnopencv.com/histogram-of-oriented-gradients/)
+
+
